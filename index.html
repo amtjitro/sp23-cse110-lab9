@@ -87,7 +87,20 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({
+      token: "707cdd57879c40779e480f37e40bae57"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+
+  <script>
+    
+    if (window.onerror) {
+      console.log('Step 5');
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -96,12 +109,124 @@
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+
+      //STEP 3
+      try {
+        let result = eval(`${firstNum} ${operator} ${secondNum}`);
+        if(result > 100) throw new Error("error, your result cannot be greater than 100");
+      } catch (err) {
+        console.log(err);
+        console.log("you have entered the catch statement");
+      } finally {
+        console.log("I will execute every time");
+      }
     });
+
+    // STEP 4
+    class customError extends Error {
+      constructor(message){
+        super(message);
+        this.name = "CustomeError";
+      }
+    }
+
+    try {
+        let result = 0-5;
+        if(result < 0) throw new customError("error, your result cannot be negative");
+      } catch (err) {
+        console.log(err);
+    }
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    // STEP 2
+    //console log button
+    errorBtns[0].addEventListener('click', () => {
+      console.log("you pressed the Console Log button");
+    });
+
+    //console error
+    errorBtns[1].addEventListener('click', () => {
+      console.error("An error has occured");
+    });
+
+    //console count
+    errorBtns[2].addEventListener('click', () => {
+      console.count("I count");
+    });
+
+    //console warn
+    errorBtns[3].addEventListener('click', () => {
+      console.warn("Warning! Fix this!");
+    });
+
+    //console assert
+    errorBtns[4].addEventListener('click', () => {
+      console.assert(5 < 3, "5 is not less than 3");
+    });
+
+    //console clear
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    //console dir
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document.body);
+    });
+
+    //console dirxml
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    //consol group start
+    errorBtns[8].addEventListener('click', () => {
+      console.group("I'm grouping messages")
+    });
+
+    //console group end
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd("we're done grouping messages");
+    });
+
+    //console table
+    errorBtns[10].addEventListener('click', () => {
+      let names = [
+        {
+          first: 'hello',
+          last: 'world',
+        },
+        {
+          first: 'john',
+          last: 'doe',
+        }
+      ];
+      console.table(names);
+    });
+
+    //start timer
+    errorBtns[11].addEventListener('click', () => {
+      console.time();
+    });
+
+    //end timer
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd();
+    });
+
+    //console trace
+    errorBtns[13].addEventListener('click', () => {
+      const first = () => { second(); };
+      const second = () => {console.trace();};
+      first();
+    });
+
+    //trigger a globlal error
+    errorBtns[14].addEventListener('click', () => {
+      thisFunctionDoesNotExist();
+    });
+
   </script>
 </body>
 
